@@ -8,23 +8,25 @@ namespace Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Persons",
+                name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: true),
                     LastModifiedBy = table.Column<string>(nullable: true),
                     LastModified = table.Column<DateTime>(nullable: true),
                     Deleted = table.Column<bool>(nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    Dob = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(500)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "varchar(15)", nullable: true)
+                    FirstName = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(20)", nullable: false),
+                    Contact = table.Column<string>(type: "varchar(20)", nullable: true),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Persons", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,7 +217,7 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Persons");
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");

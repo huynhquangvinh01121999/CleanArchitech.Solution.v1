@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221018085651_initDatabase")]
+    [Migration("20221020074308_initDatabase")]
     partial class initDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,14 +21,15 @@ namespace Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Domain.Entities.Person", b =>
+            modelBuilder.Entity("Domain.Entities.Customers", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<string>("Contact")
+                        .HasColumnType("varchar(20)");
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
@@ -36,14 +37,16 @@ namespace Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime");
+
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("Dob")
-                        .HasColumnType("datetime");
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<string>("FullName")
-                        .IsRequired()
+                    b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("LastModified")
@@ -52,12 +55,13 @@ namespace Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("varchar(15)");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

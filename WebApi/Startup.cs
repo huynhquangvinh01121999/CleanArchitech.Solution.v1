@@ -43,7 +43,7 @@ namespace WebApi
 
 
             services.AddScoped(typeof(IBaseRepositoryAsync<>), typeof(BaseRepositoryAsync<>));
-            services.AddTransient<IPersonRepositoryAsync, PersonRepositoryAsync>();
+            services.AddTransient<ICustomerRepositoryAsync, CustomerRepositoryAsync>();
 
         }
 

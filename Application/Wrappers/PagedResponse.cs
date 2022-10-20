@@ -16,14 +16,14 @@ namespace Application.Wrappers
             this.PageSize = pageSize;
             this.Data = data;
             this.Message = null;
-            this.Succeeded = true;
+            this.IsSuccessed = true;
             this.Errors = null;
         }
         public PagedResponse(T data)
         {
             this.Data = data;
             this.Message = null;
-            this.Succeeded = true;
+            this.IsSuccessed = true;
             this.Errors = null;
         }
         /// <summary>
@@ -40,7 +40,7 @@ namespace Application.Wrappers
             this.Data = data;
             this.TotalItems = totalItems;
             this.Message = null;
-            this.Succeeded = true;
+            this.IsSuccessed = true;
             this.Errors = null;
         }
     }

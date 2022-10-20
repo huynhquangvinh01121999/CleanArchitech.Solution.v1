@@ -11,7 +11,7 @@ namespace Infrastructure
         {
         }
 
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<Customers> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
