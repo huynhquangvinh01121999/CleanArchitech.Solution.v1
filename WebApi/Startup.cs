@@ -1,4 +1,4 @@
-using Domain.IRepositories;
+using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Persistence;
 using Persistence.Repositories;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,10 @@ namespace WebApi
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -38,12 +39,9 @@ namespace WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Software.Solution", Version = "v1" });
             });
 
-            services.AddDbContext<ApplicationDbContext>(ops =>
-                ops.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-
-            services.AddScoped(typeof(IBaseRepositoryAsync<>), typeof(BaseRepositoryAsync<>));
-            services.AddTransient<ICustomerRepositoryAsync, CustomerRepositoryAsync>();
+            
+            services.AddPersistenceLayer(_configuration);
+            services.AddApplicationLayer();
 
         }
 
