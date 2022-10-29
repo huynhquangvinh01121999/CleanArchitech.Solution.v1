@@ -31,7 +31,8 @@ namespace Application.Features.Customer
         public async Task<PagedResponse<IEnumerable<CustomerDto>>> GetCustomers(int pageNumber, int pageSize)
         {
             var customers = await _customerRepositoryAsync.GetCustomers(pageNumber, pageSize);
-            return new PagedResponse<IEnumerable<CustomerDto>>(customers.MappingCustomeDtos(), pageNumber, pageSize);
+            var totalItems = await _customerRepositoryAsync.GetTotalItem();
+            return new PagedResponse<IEnumerable<CustomerDto>>(customers.MappingCustomeDtos(), pageNumber, pageSize, totalItems);
         }
     }
 }
