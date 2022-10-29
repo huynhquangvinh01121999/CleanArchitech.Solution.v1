@@ -24,7 +24,7 @@ namespace Application.Mappings
         }
 
         // convert entity -> dto
-        public static Customers MappingCustomerDto(this CustomerDto customerDto)
+        public static Customers MappingCustomer(this CustomerDto customerDto)
         {
             return new Customers
             {
@@ -34,6 +34,27 @@ namespace Application.Mappings
                 Email = customerDto.Email,
                 DateOfBirth = customerDto.DateOfBirth
             };
+        }
+
+        // hàm gán giá trị của Product = ProductDTO
+        public static void MappingCustomer(this CustomerDto customerDto, Customers customer)
+        {
+            customer.FirstName = customerDto.FirstName;
+            customer.LastName = customerDto.LastName;
+            customer.Contact = customerDto.Contact;
+            customer.Email = customerDto.Email;
+            customer.DateOfBirth = customerDto.DateOfBirth;
+        }
+
+
+
+        // hàm trả về danh sách ProductDTO và thực thi gán value của từng đối tượng Product cho ProductDTO
+        public static IEnumerable<CustomerDto> MappingCustomeDtos(this IEnumerable<Customers> customers)
+        {
+            foreach (var customer in customers)
+            {
+                yield return customer.MappingCustomerDto();
+            }
         }
     }
 }
