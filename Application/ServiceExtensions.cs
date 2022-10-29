@@ -1,4 +1,4 @@
-﻿using Application.Features.Customers;
+﻿using Application.Features.Customer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
