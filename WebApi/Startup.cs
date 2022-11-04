@@ -39,6 +39,7 @@ namespace WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Software.Solution", Version = "v1" });
             });
 
+            services.AddMemoryCache();
             
             services.AddPersistenceLayer(_configuration);
             services.AddApplicationLayer();

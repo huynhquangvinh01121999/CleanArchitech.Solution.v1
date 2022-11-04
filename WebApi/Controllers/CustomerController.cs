@@ -1,6 +1,11 @@
-﻿using Application.Features.Customer;
-using Application.Parameters;
+﻿using Application.DTOs;
+using Application.Features.Customer;
+using Application.Parameters.CustomerParams;
+using Application.Wrappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -10,16 +15,35 @@ namespace WebApi.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IMemoryCache _memoryCache;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IMemoryCache memoryCache)
         {
             _customerService = customerService;
+            _memoryCache = memoryCache;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] RequestParameter param)
+        public async Task<IActionResult> Get([FromQuery] GetCustomerParameters param)
         {
-            return Ok(await _customerService.GetCustomers(param.PageNumber, param.PageSize));
+            var cacheKey = "customers";
+            //checks if cache entries exists
+            if (!_memoryCache.TryGetValue(cacheKey, out PagedResponse<IEnumerable<CustomerDto>> customers))
+            {
+                customers = await _customerService.GetCustomers(param.PageNumber, param.PageSize
+                                                                , param.colFil, param.keyword
+                                                                , param.startDob, param.endDob);
+                //setting up cache options
+                var cacheExpiryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTime.Now.AddSeconds(50),
+                    Priority = CacheItemPriority.High,
+                    SlidingExpiration = TimeSpan.FromSeconds(20)
+                };
+                //setting cache entries
+                _memoryCache.Set(cacheKey, customers, cacheExpiryOptions);
+            }
+            return Ok(customers);
         }
     }
 }

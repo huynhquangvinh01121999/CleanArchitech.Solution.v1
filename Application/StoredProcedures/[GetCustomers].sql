@@ -34,6 +34,7 @@ BEGIN
 						 WHEN @colFil = 'contact' THEN 'WHERE Contact + '' '' + LastName like N''' +'%' + @keyword +'%' +''''
 						 WHEN @colFil = 'email' THEN 'WHERE Email + '' '' + LastName like N''' +'%' + @keyword +'%' +''''
 						 WHEN @colFil = 'dob' THEN 'WHERE DateOfBirth >= ''' + CAST(@startDob as NVARCHAR) + ''' and DateOfBirth <= ''' + CAST(@endDob as NVARCHAR) +''''
+						 WHEN @colFil is null or @colFil = '' THEN ''
 					 END
 	
 	-- đếm tổng record query

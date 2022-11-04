@@ -28,9 +28,13 @@ namespace Application.Features.Customer
             throw new NotImplementedException();
         }
 
-        public async Task<PagedResponse<IEnumerable<CustomerDto>>> GetCustomers(int pageNumber, int pageSize)
+        public async Task<PagedResponse<IEnumerable<CustomerDto>>> GetCustomers(int pageNumber, int pageSize
+                                                                                , string colFil, string keyword
+                                                                                , DateTime? startDob, DateTime? endDob)
         {
-            var customers = await _customerRepositoryAsync.GetCustomers(pageNumber, pageSize);
+            var customers = await _customerRepositoryAsync.GetCustomers(pageNumber, pageSize
+                                                                        , colFil, keyword
+                                                                        , startDob, endDob);
             var totalItems = await _customerRepositoryAsync.GetTotalItem();
             return new PagedResponse<IEnumerable<CustomerDto>>(customers.MappingCustomeDtos(), pageNumber, pageSize, totalItems);
         }
