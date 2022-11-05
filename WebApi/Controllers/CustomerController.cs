@@ -36,9 +36,9 @@ namespace WebApi.Controllers
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {
-                    AbsoluteExpiration = DateTime.Now.AddSeconds(50),
+                    AbsoluteExpiration = DateTime.Now.AddSeconds(10),
                     Priority = CacheItemPriority.High,
-                    SlidingExpiration = TimeSpan.FromSeconds(20)
+                    SlidingExpiration = TimeSpan.FromSeconds(5)
                 };
                 //setting cache entries
                 _memoryCache.Set(cacheKey, customers, cacheExpiryOptions);

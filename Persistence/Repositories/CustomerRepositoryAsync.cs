@@ -42,13 +42,14 @@ namespace Persistence.Repositories
             };
 
             //string sql = string.Format("[{0}] @pageNumber, @pageSize, @colFil, @keyword, @startDob ,@endDob, @totalItems output", Procedures.GetCustomers);
-            string sql = string.Format("[{0}] @pageNumber, @pageSize, @totalItems output", Procedures.GetCustomers);
+            string sql = string.Format("[{0}] @pageNumber, @pageSize, @totalItems output", "GetCustomers_test");
 
             var customers = await _dbContext.Set<Customers>()
                                             .FromSqlRaw(sql.ToString(), parameter)
                                             .ToListAsync();
 
-            _totalItem = Convert.ToInt32(parameter[6].Value);
+            _totalItem = Convert.ToInt32(parameter[2].Value);
+            //_totalItem = Convert.ToInt32(parameter[6].Value);
 
             return customers;
         }
